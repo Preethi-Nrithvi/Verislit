@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Preethi-Nrithvi/Translit/schema/report.schema.json",
+  "title": "Translit report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "scan_metadata", "findings", "summary"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "scan_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tool", "target", "scope_authorized", "scanned_at"],
+      "properties": {
+        "tool": { "enum": ["nmap", "nikto"] },
+        "target": { "type": "string", "minLength": 1 },
+        "scope_authorized": { "type": "boolean" },
+        "scanned_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/finding" }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["counts"],
+      "properties": {
+        "counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["critical", "high", "medium", "low", "info"],
+          "properties": {
+            "critical": { "type": "integer", "minimum": 0 },
+            "high": { "type": "integer", "minimum": 0 },
+            "medium": { "type": "integer", "minimum": 0 },
+            "low": { "type": "integer", "minimum": 0 },
+            "info": { "type": "integer", "minimum": 0 }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "title", "severity", "evidence", "plain_explanation",
+        "risk", "remediation", "references", "verified", "verifier_notes"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^F-[0-9]{3,}$" },
+        "title": { "type": "string", "minLength": 1 },
+        "severity": { "enum": ["critical", "high", "medium", "low", "info"] },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source", "quote"],
+            "properties": {
+              "source": { "enum": ["nmap", "nikto"] },
+              "quote": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "plain_explanation": { "type": "string", "minLength": 1 },
+        "risk": { "type": "string", "minLength": 1 },
+        "remediation": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "references": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^(CVE-[0-9]{4}-[0-9]{4,}|CWE-[0-9]+|OSVDB-[0-9]+|https?://.+)$" }
+        },
+        "verified": { "type": "boolean" },
+        "verifier_notes": { "type": "string" }
+      }
+    }
+  }
+}
