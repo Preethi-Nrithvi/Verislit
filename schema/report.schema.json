@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/Preethi-Nrithvi/Translit/schema/report.schema.json",
+  "$id": "https://github.com/Preethi-Nrithvi/Verislit/schema/report.schema.json",
   "title": "Translit report",
   "type": "object",
   "additionalProperties": false,
