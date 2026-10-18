@@ -2,16 +2,15 @@
 
 ## Reporting a vulnerability
 
-Please do NOT open a public issue for a security problem.
+Please do NOT post details of a security problem in a public issue.
 
-Report it privately using GitHub private vulnerability reporting:
+To report one privately:
 
-1. Go to the Verislit repository on GitHub.
-2. Click the **Security** tab.
-3. Click **Report a vulnerability**.
-4. Describe the problem and submit.
+1. Open a new issue in this repository titled **Security contact request**.
+2. Write only that you found a security problem. Do NOT include any details, steps, files or code.
+3. A maintainer will reply and arrange a private way for you to share the details.
 
-Please include:
+Please include in your private message:
 
 - What the problem is and where it is (file, page or feature).
 - Steps to reproduce it.
