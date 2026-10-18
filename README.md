@@ -71,7 +71,7 @@ Then open the address Flask prints, load a sample scan, tick the permission chec
 
 ## Contributing
 
-Small contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) and the good first issues. For security problems, see [SECURITY.md](SECURITY.md).
+Small contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) and the good first issues. For security problems, see [SECURITY.md]  (SECURITY.md).
 
 ## License
 
