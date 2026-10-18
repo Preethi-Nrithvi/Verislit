@@ -4,7 +4,7 @@ Thank you for helping. Verislit is small on purpose, so most contributions are s
 
 ## What Verislit does (so you know where things live)
 
-- It reads Nmap scan output (text or XML) and turns it into structured findings with plain code.
+- It reads Nmap XML scan output and turns it into structured findings with plain code.
 - Severity comes from a fixed rule table in `src/verislit/rules.py`.
 - An optional AI model only rewrites the explanation and fix steps. Backends (Ollama local, Gemini API) are in `src/verislit/llm.py`.
 - A Verifier in `src/verislit/verifier.py` checks every finding against the raw scan.
@@ -31,7 +31,7 @@ All tests must pass before you open a pull request.
 
 ## How to add a parser for a new tool
 
-1. Open `src/verislit/parser.py` and see how the Nmap parser turns raw text into findings.
+1. Open `src/verislit/nmap_parser.py` and see how the Nmap parser turns raw text into findings.
 2. Add your parser as a separate function. Parsing must stay plain code. No AI in the parser.
 3. Add a small sample scan file and tests for your parser in `tests/`.
 4. Nikto support is not built yet, so a Nikto parser is a welcome contribution.

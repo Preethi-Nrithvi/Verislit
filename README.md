@@ -10,8 +10,8 @@ Live demo: https://verislit.onrender.com
 
 ## How it works
 
-1. **Parse (plain code).** Verislit reads Nmap output (text or XML) and turns it into structured findings. No AI is used here.
-2. **Set severity (plain code).** Severity comes from a fixed table of 14 rules plus a generic open-port rule. The AI cannot change it.
+1. **Parse (plain code).** Verislit reads Nmap XML output and turns it into structured findings. No AI is used here.
+2. **Set severity (plain code).** Severity comes from a fixed table of 8 rules plus a generic open-port rule. The AI cannot change it.
 3. **Reword (AI, optional).** An AI model rewrites the explanation and fix steps in plain language. It has no tools.
 4. **Verify (plain code).** A Verifier checks every finding against the raw scan.
 5. **Report.** You get a readable report, validated against a JSON schema, with the number of blocked AI claims shown.
@@ -28,7 +28,7 @@ When wording is rejected, Verislit uses the rule-based text instead.
 
 ## Prompt injection
 
-Instruction-like text hidden in scan banners is detected, logged and ignored. The AI step has no tools, and the web page escapes all scan text.
+Instruction-like text hidden in scan banners is detected and redacted before the AI step. The AI step has no tools, and the web page escapes all scan text.
 
 ## AI backends
 
@@ -45,11 +45,11 @@ pytest
 flask --app app run
 ```
 
-Then open the address Flask prints, load a sample scan, tick the permission checkbox and click Analyze.
+Then open the address Flask prints, paste Nmap XML output, tick the permission checkbox and click Analyze.
 
 ## Project layout
 
-- `src/verislit/parser.py` - parses Nmap output
+- `src/verislit/nmap_parser.py` - parses Nmap XML output
 - `src/verislit/rules.py` - the severity rule table
 - `src/verislit/verifier.py` - the Verifier
 - `src/verislit/llm.py` - AI backends
