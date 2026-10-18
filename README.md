@@ -1,77 +1,57 @@
 # Verislit
 
-**Verislit reads your Nmap scan, explains each finding in plain language, and checks every claim against the raw scan.**
+Verislit explains confusing or scary messages in plain language. It sends the
+message, and optionally a screenshot, to a local Ollama model and asks for:
 
-Security scan output is long and technical. Verislit turns it into a clear report that says what the problem is, how serious it is, and how to fix it. Code decides the facts. The AI only helps with wording, and a Verifier checks that wording.
+1. What the message means.
+2. Whether it looks like a scam, and why.
+3. What the person should do.
 
-Live demo: [LIVE URL]
-
-> Warning: the hosted demo may send finding text to an AI API. Do not paste sensitive data. See [RESPONSIBLE_USE.md](RESPONSIBLE_USE.md).
-
-## How it works
-
-1. **Parse (plain code).** Verislit reads Nmap output (text or XML) and turns it into structured findings. No AI is used here.
-2. **Set severity (plain code).** Severity comes from a fixed table of 14 rules plus a generic open-port rule. The AI cannot change it.
-3. **Reword (AI, optional).** An AI model rewrites the explanation and fix steps in plain language. It has no tools.
-4. **Verify (plain code).** A Verifier checks every finding against the raw scan.
-5. **Report.** You get a readable report, validated against a JSON schema, with the number of blocked AI claims shown.
-
-## What the Verifier checks
-
-- The evidence quote must appear verbatim in the raw scan.
-- References (CVE or CWE ids) must come from the rule table.
-- AI wording that invents a CVE id, version, port or link is rejected.
-- AI wording that contradicts the severity is rejected.
-- AI wording with exploit phrases or "no vulnerabilities" claims is rejected.
-
-When wording is rejected, Verislit uses the rule-based text instead.
-
-## Prompt injection
-
-Instruction-like text hidden in scan banners is detected, logged and ignored. The AI step has no tools, and the web page escapes all scan text.
-
-## AI backends
-
-- **Ollama (local, offline).** Runs an open-weight model on your own computer, so scan text stays on your machine.
-- **Gemini API (hosted demo).** Uses a Gemma/Gemini model. Set `GEMINI_API_KEY` and, optionally, `VERISLIT_GEMINI_MODEL` as environment variables. Never commit keys.
-
-Backends live in `src/verislit/llm.py`.
+The current repository is the early application described by `src/app.py` and
+`src/explain.py`. It does not yet contain the later parser, rules, or verifier
+architecture. The report schema in `schema/report.schema.json` and its tests
+are retained.
 
 ## Run it yourself
 
-```
+Install the dependencies:
+
+```text
 pip install -r requirements.txt
-pytest
-flask --app app run
 ```
 
-Then open the address Flask prints, load a sample scan, tick the permission checkbox and click Analyze.
+Start Ollama with the configured model (`gemma4:e4b` by default), then run:
 
-## Project layout
+```text
+python src/app.py --language Tamil --message "Your account will be blocked"
+```
 
-- `src/verislit/parser.py` - parses Nmap output
-- `src/verislit/rules.py` - the severity rule table
-- `src/verislit/verifier.py` - the Verifier
-- `src/verislit/llm.py` - AI backends
-- `schema/report.schema.json` - report schema
-- `tests/` - automated tests (run with `pytest`)
+You can also read the message from standard input:
 
-## What Verislit does not do
+```text
+echo "Your account will be blocked" | python src/app.py --language Hindi
+```
 
-- It does not run scans. It only reads scan output you give it.
-- It does not generate exploits. It gives fix advice only.
-- It cannot promise a system is secure. A short report does not prove safety.
+To include a screenshot:
 
-## Not built yet
+```text
+python src/app.py --image screenshot.png --message "Review this message"
+```
 
-- Nikto support
-- Separate Planner and Critic agents
-- An air-gapped Docker setup
-- Full benchmarks
+Use `--model` to select a different Ollama model. The Ollama endpoint and
+default model are defined in `src/explain.py`.
 
-## Contributing
+## Tests
 
-Small contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) and the good first issues. For security problems, see [SECURITY.md](SECURITY.md).
+```text
+python -m pytest
+```
+
+## Responsible use
+
+Only analyze messages you are allowed to inspect. Do not share sensitive
+information, passwords, PINs, or one-time passwords. See
+[RESPONSIBLE_USE.md](RESPONSIBLE_USE.md).
 
 ## License
 
