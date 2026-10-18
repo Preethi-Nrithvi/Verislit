@@ -1,3 +1,4 @@
+import base64
 import requests
 
 OLLAMA_URL = "http://localhost:11434/api/chat"
@@ -17,15 +18,13 @@ def build_prompt(message, language):
     )
 
 
-def explain(message, language="Hindi", model=MODEL):
+def explain(message, language="Hindi", image_bytes=None, model=MODEL):
+    msg = {"role": "user", "content": build_prompt(message or "(see the attached screenshot)", language)}
+    if image_bytes:
+        msg["images"] = [base64.b64encode(image_bytes).decode()]
     response = requests.post(
         OLLAMA_URL,
-        json={
-            "model": model,
-            "messages": [{"role": "user", "content": build_prompt(message, language)}],
-            "stream": False,
-            "think": False,  # hides the long "Thinking..." section
-        },
+        json={"model": model, "messages": [msg], "stream": False, "think": False},
         timeout=300,
     )
     response.raise_for_status()
