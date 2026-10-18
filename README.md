@@ -4,7 +4,7 @@
 
 Security scan output is long and technical. Verislit turns it into a clear report that says what the problem is, how serious it is, and how to fix it. Code decides the facts. The AI only helps with wording, and a Verifier checks that wording.
 
-Live demo: [LIVE URL]
+Live demo: https://verislit.onrender.com
 
 > Warning: the hosted demo may send finding text to an AI API. Do not paste sensitive data. See [RESPONSIBLE_USE.md](RESPONSIBLE_USE.md).
 
@@ -71,7 +71,7 @@ Then open the address Flask prints, load a sample scan, tick the permission chec
 
 ## Contributing
 
-Small contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) and the good first issues. For security problems, see [SECURITY.md]  (SECURITY.md).
+Small contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) and the good first issues. For security problems, see [SECURITY.md](SECURITY.md).
 
 ## License
 
