@@ -9,13 +9,15 @@ DEFAULT_GEMINI_MODEL = "gemma-4-26b-a4b-it"
 
 def build_prompt(message, language):
     return (
-        "You help people in India understand confusing or scary messages.\n"
-        f"Reply ONLY in simple {language}, using short sentences.\n"
-        "Give three parts:\n"
-        "1) What this message means.\n"
-        "2) Does it look like a scam? Say Yes, No or Not sure, and why.\n"
-        "3) What the person should do.\n"
-        "Never tell the person to share an OTP, PIN or password.\n\n"
+        f"You are helping someone understand a message in {language}.\n"
+        f"1. Translate the message into {language} and place the translation inside double quotes.\n"
+        f"2. Give a short explanation in {language} whether it is safe or dangerous.\n"
+        "3. Provide the scam verdict strictly in English as 'Scam: Yes', 'Scam: No', or 'Scam: Not sure'.\n\n"
+        "Do not include boilerplate or repeat these instructions.\n\n"
+        "Output format:\n"
+        f"\"<Translation in {language}>\"\n"
+        f"<Short explanation in {language}>\n"
+        "Scam: <Yes / No / Not sure>\n\n"
         f"Message:\n{message}"
     )
 
